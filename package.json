@@ -1,0 +1,12 @@
+{
+  "name": "despliegue",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "cd back-end && nodemon index.js",
+    "client": "cd proyecto && npm start"
+  },
+  "devDependencies": {
+    "concurrently": "^7.6.0"
+  }
+}

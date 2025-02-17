@@ -1,47 +1,97 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 
 function App() {
-  const [data, setData] = useState(null);
+  const [tareas, setTareas] = useState([]);
+  const [titulo, setTitulo] = useState('');
+  const [descripcion, setDescripcion] = useState('');
   const [error, setError] = useState(null);
 
-  const fetchData = async () => {
-    const randomId = Math.floor(Math.random() * 898) + 1; // PokeAPI tiene 898 Pokémon en la generación actual
+  const fetchTareas = async () => {
     try {
-      const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${randomId}`);
+      const response = await fetch('http://localhost:3000/tareas');
       if (!response.ok) {
-        throw new Error('Error');
+        throw new Error('Error fetching tareas');
       }
       const result = await response.json();
-      setData(result);
+      setTareas(result);
       setError(null);
     } catch (error) {
-      setError('Error en el fetch');
-      setData(null);
+      console.error('Fetch error:', error); // Log the error to the console
+      setError('Error fetching tareas');
     }
   };
+
+  const addTarea = async () => {
+    try {
+      const response = await fetch('http://localhost:3000/tareas', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ titulo, descripcion }),
+      });
+      if (!response.ok) {
+        throw new Error('Error adding tarea');
+      }
+      const newTarea = await response.json();
+      setTareas([...tareas, newTarea]);
+      setTitulo('');
+      setDescripcion('');
+      setError(null);
+    } catch (error) {
+      setError('Error adding tarea');
+    }
+  };
+
+  const deleteTarea = async (id) => {
+    try {
+      const response = await fetch(`http://localhost:3000/tareas/${id}`, {
+        method: 'DELETE',
+      });
+      if (!response.ok) {
+        throw new Error('Error deleting tarea');
+      }
+      setTareas(tareas.filter(tarea => tarea.id !== id));
+      setError(null);
+    } catch (error) {
+      setError('Error deleting tarea');
+    }
+  };
+
+  useEffect(() => {
+    fetchTareas();
+  }, []);
 
   return (
     <div className="App">
       <header className="App-header">
-        <h1>Aplicacion front-end</h1>
-        <button onClick={fetchData}>Pulsa aquí</button>
+        <h1>Gestión de Tareas</h1>
+        <div>
+          <input
+            type="text"
+            placeholder="Título"
+            value={titulo}
+            onChange={(e) => setTitulo(e.target.value)}
+          />
+          <input
+            type="text"
+            placeholder="Descripción"
+            value={descripcion}
+            onChange={(e) => setDescripcion(e.target.value)}
+          />
+          <button onClick={addTarea}>Añadir Tarea</button>
+        </div>
         {error && <p>{error}</p>}
-        {data && (
-          <div>
-            <h2>{data.name}</h2>
-            <img src={data.sprites.front_default} alt={data.name} />
-            <p>Height: {data.height}</p>
-            <p>Weight: {data.weight}</p>
-            <p>Base Experience: {data.base_experience}</p>
-            <h3>Abilities:</h3>
-            <ul>
-              {data.abilities.map((ability, index) => (
-                <li key={index}>{ability.ability.name}</li>
-              ))}
-            </ul>
-          </div>
-        )}
+        <ul>
+          {tareas.map((tarea) => (
+            <li key={tarea.id}>
+              <h2>{tarea.titulo}</h2>
+              <p>{tarea.descripcion}</p>
+              <button onClick={() => deleteTarea(tarea.id)}>Eliminar</button>
+            </li>
+          ))}
+        </ul>
       </header>
     </div>
   );
