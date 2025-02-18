@@ -16,6 +16,7 @@ router.get('/', async (req, res) => {
     const tareas = await Tarea.find();
     res.json(tareas);
   } catch (err) {
+    console.error('Error fetching tareas:', err); // Log the error to the console
     res.status(500).json({ error: 'Error fetching tareas' });
   }
 });
@@ -30,6 +31,7 @@ router.post('/', async (req, res) => {
     const savedTarea = await newTarea.save();
     res.status(201).json(savedTarea);
   } catch (err) {
+    console.error('Error adding tarea:', err); // Log the error to the console
     res.status(500).json({ error: 'Error adding tarea' });
   }
 });
@@ -40,6 +42,7 @@ router.delete('/:id', async (req, res) => {
     await Tarea.findByIdAndDelete(id);
     res.status(204).send();
   } catch (err) {
+    console.error('Error deleting tarea:', err); // Log the error to the console
     res.status(500).json({ error: 'Error deleting tarea' });
   }
 });
