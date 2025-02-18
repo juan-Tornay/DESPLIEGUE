@@ -9,7 +9,7 @@ function App() {
 
   const fetchTareas = async () => {
     try {
-      const response = await fetch('http://localhost:3000/tareas');
+      const response = await fetch('https://despliegue-1-ep0c.onrender.com/tareas');
       if (!response.ok) {
         throw new Error('Error fetching tareas');
       }
@@ -24,7 +24,7 @@ function App() {
 
   const addTarea = async () => {
     try {
-      const response = await fetch('http://localhost:3000/tareas', {
+      const response = await fetch('https://despliegue-1-ep0c.onrender.com/tareas', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -46,7 +46,7 @@ function App() {
 
   const deleteTarea = async (id) => {
     try {
-      const response = await fetch(`http://localhost:3000/tareas/${id}`, {
+      const response = await fetch(`https://despliegue-1-ep0c.onrender.com/tareas/${id}`, {
         method: 'DELETE',
       });
       if (!response.ok) {

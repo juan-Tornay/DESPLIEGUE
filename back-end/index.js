@@ -3,7 +3,7 @@ const cors = require('cors'); // Importar el paquete cors
 const app = express();
 const tareasRoutes = require('./routes/tareas');
 
-app.use(cors()); // Usar el middleware cors
+app.use(cors()); // Usar el middleware cors sin restricciones
 app.use(express.json());
 app.use('/tareas', tareasRoutes);
 

@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-let tareas = [];
+let tareas = []; // Estructura de datos en memoria para guardar las tareas
 
 router.get('/', (req, res) => {
   res.json(tareas);
