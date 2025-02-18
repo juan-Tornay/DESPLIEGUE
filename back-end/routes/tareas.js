@@ -1,26 +1,47 @@
 const express = require('express');
 const router = express.Router();
+const mongoose = require('mongoose');
 
-let tareas = []; // Estructura de datos en memoria para guardar las tareas
-
-router.get('/', (req, res) => {
-  res.json(tareas);
+// Definir el esquema de Tarea
+const tareaSchema = new mongoose.Schema({
+  titulo: String,
+  descripcion: String
 });
 
-router.post('/', (req, res) => {
+// Crear el modelo de Tarea
+const Tarea = mongoose.model('Tarea', tareaSchema);
+
+router.get('/', async (req, res) => {
+  try {
+    const tareas = await Tarea.find();
+    res.json(tareas);
+  } catch (err) {
+    res.status(500).json({ error: 'Error fetching tareas' });
+  }
+});
+
+router.post('/', async (req, res) => {
   const { titulo, descripcion } = req.body;
   if (!titulo || !descripcion) {
     return res.status(400).json({ error: 'Titulo and Descripcion are required' });
   }
-  const newTarea = { id: tareas.length + 1, titulo, descripcion };
-  tareas.push(newTarea);
-  res.status(201).json(newTarea);
+  const newTarea = new Tarea({ titulo, descripcion });
+  try {
+    const savedTarea = await newTarea.save();
+    res.status(201).json(savedTarea);
+  } catch (err) {
+    res.status(500).json({ error: 'Error adding tarea' });
+  }
 });
 
-router.delete('/:id', (req, res) => {
+router.delete('/:id', async (req, res) => {
   const { id } = req.params;
-  tareas = tareas.filter(tarea => tarea.id !== parseInt(id));
-  res.status(204).send();
+  try {
+    await Tarea.findByIdAndDelete(id);
+    res.status(204).send();
+  } catch (err) {
+    res.status(500).json({ error: 'Error deleting tarea' });
+  }
 });
 
 module.exports = router;

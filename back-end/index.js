@@ -1,7 +1,14 @@
 const express = require('express');
 const cors = require('cors'); // Importar el paquete cors
+const mongoose = require('mongoose'); // Importar mongoose
 const app = express();
 const tareasRoutes = require('./routes/tareas');
+
+// Conectar a MongoDB
+const mongoURI = 'mongodb+srv://juantornayiglesiasweb:<juantor_626262>@juantornaay.7e3be.mongodb.net/Despliegue?retryWrites=true&w=majority';
+mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => console.log('MongoDB connected'))
+  .catch(err => console.error('MongoDB connection error:', err));
 
 app.use(cors()); // Usar el middleware cors sin restricciones
 app.use(express.json());
