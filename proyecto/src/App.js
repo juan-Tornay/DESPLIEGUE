@@ -40,6 +40,7 @@ function App() {
       setDescripcion('');
       setError(null);
     } catch (error) {
+      console.error('Error adding tarea:', error); // Log the error to the console
       setError('Error adding tarea');
     }
   };
@@ -55,6 +56,7 @@ function App() {
       setTareas(tareas.filter(tarea => tarea.id !== id));
       setError(null);
     } catch (error) {
+      console.error('Error deleting tarea:', error); // Log the error to the console
       setError('Error deleting tarea');
     }
   };
