@@ -5,7 +5,7 @@ const app = express();
 const tareasRoutes = require('./routes/tareas');
 
 // Conectar a MongoDB
-const mongoURI = 'mongodb+srv://juantornayiglesiasweb:<juantor_626262>@juantornaay.7e3be.mongodb.net/Despliegue?retryWrites=true&w=majority';
+const mongoURI = 'mongodb+srv://juantornayiglesiasweb:juantor_626262@juantornaay.7e3be.mongodb.net/Despliegue?retryWrites=true&w=majority';
 mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('MongoDB connected'))
   .catch(err => console.error('MongoDB connection error:', err));
