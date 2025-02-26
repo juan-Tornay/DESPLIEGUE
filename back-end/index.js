@@ -12,7 +12,7 @@ mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
 
 app.use(cors()); // Usar el middleware cors sin restricciones
 app.use(express.json());
-app.use('/tareas', tareasRoutes);
+app.use('/tareas', tareasRoutes); // Asegúrate de que esta ruta esté correcta
 
 // Handle 404 errors
 app.use((req, res, next) => {
@@ -24,7 +24,6 @@ app.use((err, req, res, next) => {
   console.error(err.stack); // Log the error stack trace
   res.status(500).json({ error: 'Internal Server Error' });
 });
-
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
