@@ -5,7 +5,7 @@ const app = express();
 const tareasRoutes = require('./routes/tareas');
 
 // Conectar a MongoDB
-const mongoURI = 'mongodb+srv://juantornayiglesiasweb:juantor_626262@juantornaay.7e3be.mongodb.net/Despliegue?retryWrites=true&w=majority';
+const mongoURI = 'mongodb+srv://juantornayiglesiasweb:juan12345@cluster0.txy7i.mongodb.net/';
 mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('MongoDB connected'))
   .catch(err => console.error('MongoDB connection error:', err));
@@ -24,6 +24,7 @@ app.use((err, req, res, next) => {
   console.error(err.stack); // Log the error stack trace
   res.status(500).json({ error: 'Internal Server Error' });
 });
+
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
