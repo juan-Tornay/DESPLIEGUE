@@ -6,7 +6,7 @@ const mongoose = require('mongoose');
 const tareaSchema = new mongoose.Schema({
   titulo: String,
   descripcion: String
-});
+}, { collection: 'Tareas' }); // Usar la colección 'Tareas'
 
 // Crear el modelo de Tarea
 const Tarea = mongoose.model('Tarea', tareaSchema);
