@@ -9,7 +9,7 @@ function App() {
 
   const fetchTareas = async () => {
     try {
-      const response = await fetch('https://despliegue-1-ep0c.onrender.com/tareas');
+      const response = await fetch('http://localhost:3000/tareas');
       if (!response.ok) {
         throw new Error('Error fetching tareas');
       }
@@ -24,7 +24,7 @@ function App() {
 
   const addTarea = async () => {
     try {
-      const response = await fetch('https://despliegue-1-ep0c.onrender.com/tareas', {
+      const response = await fetch('http://localhost:3000/tareas', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -47,13 +47,13 @@ function App() {
 
   const deleteTarea = async (id) => {
     try {
-      const response = await fetch(`https://despliegue-1-ep0c.onrender.com/tareas/${id}`, {
+      const response = await fetch(`http://localhost:3000/tareas/${id}`, {
         method: 'DELETE',
       });
       if (!response.ok) {
         throw new Error('Error deleting tarea');
       }
-      setTareas(tareas.filter(tarea => tarea.id !== id));
+      setTareas(tareas.filter(tarea => tarea._id !== id));
       setError(null);
     } catch (error) {
       console.error('Error deleting tarea:', error); // Log the error to the console
@@ -87,10 +87,10 @@ function App() {
         {error && <p>{error}</p>}
         <ul>
           {tareas.map((tarea) => (
-            <li key={tarea.id}>
+            <li key={tarea._id}>
               <h2>{tarea.titulo}</h2>
               <p>{tarea.descripcion}</p>
-              <button onClick={() => deleteTarea(tarea.id)}>Eliminar</button>
+              <button onClick={() => deleteTarea(tarea._id)}>Eliminar</button>
             </li>
           ))}
         </ul>
