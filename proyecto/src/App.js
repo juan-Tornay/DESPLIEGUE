@@ -9,7 +9,7 @@ function App() {
 
   const fetchTareas = async () => {
     try {
-      const response = await fetch('http://localhost:3001/tareas');
+      const response = await fetch('http://localhost:5000/tareas');
       if (!response.ok) {
         throw new Error('Error fetching tareas');
       }
@@ -24,7 +24,7 @@ function App() {
 
   const addTarea = async () => {
     try {
-      const response = await fetch('http://localhost:3001/tareas', {
+      const response = await fetch('http://localhost:5000/tareas', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -47,7 +47,7 @@ function App() {
 
   const deleteTarea = async (id) => {
     try {
-      const response = await fetch(`http://localhost:3001/tareas/${id}`, {
+      const response = await fetch(`http://localhost:5000/tareas/${id}`, {
         method: 'DELETE',
       });
       if (!response.ok) {

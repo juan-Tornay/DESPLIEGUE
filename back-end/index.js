@@ -1,31 +1,29 @@
 const express = require('express');
-const cors = require('cors'); // Importar el paquete cors
-const mongoose = require('mongoose'); // Importar mongoose
+const cors = require('cors'); 
+const mongoose = require('mongoose');
+const tareasRoutes = require('./routes/tareas'); // Asegúrate que esta ruta esté correcta
+
 const app = express();
-const tareasRoutes = require('./routes/tareas');
 
-// Conectar a MongoDB
-const mongoURI = 'mongodb+srv://juantornayiglesiasweb:juan12345@cluster0.r0ojd.mongodb.net/EjercicioIsrael?retryWrites=true&w=majority';
+const mongoURI = 'mongodb+srv://juantornayiglesiasweb:juan12345@cluster0.yjmbn.mongodb.net/DespliegueTrabajo?retryWrites=true&w=majority';
+
 mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log('MongoDB connected'))
-  .catch(err => console.error('MongoDB connection error:', err));
+  .then(() => console.log('MongoDB conectado'))
+  .catch(err => console.error('Error al conectar a MongoDB:', err));
 
-app.use(cors()); // Usar el middleware cors sin restricciones
-app.use(express.json());
-app.use('/tareas', tareasRoutes); // Asegúrate de que esta ruta esté correcta
+app.use(cors());
+app.use(express.json()); // Necesario para poder leer los datos del body de la petición
 
-// Handle 404 errors
+// Aquí estás usando las rutas de 'tareas'
+app.use('/api/tareas', tareasRoutes); // Cambia la ruta para que sea compatible con Vercel
+
+// Manejo de errores
 app.use((req, res, next) => {
-  res.status(404).json({ error: 'Not Found' });
+  res.status(404).json({ error: 'No encontrado' });
 });
-
-// Handle other errors
 app.use((err, req, res, next) => {
-  console.error(err.stack); // Log the error stack trace
-  res.status(500).json({ error: 'Internal Server Error' });
+  console.error(err.stack); // Para loguear los errores
+  res.status(500).json({ error: 'Error interno del servidor' });
 });
 
-const PORT = process.env.PORT || 3001; // Cambiar el puerto a 3001
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+module.exports = app; // Exporta la app para Vercel
