@@ -9,7 +9,7 @@ function App() {
 
   const fetchTareas = async () => {
     try {
-      const response = await fetch('http://localhost:5000/tareas');
+      const response = await fetch('https://despliegue-3.onrender.com/api/tareas'); // Actualiza la URL del backend
       if (!response.ok) {
         throw new Error('Error fetching tareas');
       }
@@ -24,7 +24,7 @@ function App() {
 
   const addTarea = async () => {
     try {
-      const response = await fetch('http://localhost:5000/tareas', {
+      const response = await fetch('https://despliegue-3.onrender.com/api/tareas', { // Actualiza la URL del backend
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -47,7 +47,7 @@ function App() {
 
   const deleteTarea = async (id) => {
     try {
-      const response = await fetch(`http://localhost:5000/tareas/${id}`, {
+      const response = await fetch(`https://despliegue-3.onrender.com/api/tareas/${id}`, { // Actualiza la URL del backend
         method: 'DELETE',
       });
       if (!response.ok) {
